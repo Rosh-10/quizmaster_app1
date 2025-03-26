@@ -128,7 +128,7 @@ def login():
                 if (user.User_password == password):
                     session['password'] = user.User_password
                     session['id']= user.id
-                    return redirect('/user')
+                    return redirect('/admin_userlist')
                 else:
                     flash('incorrector password','error')
                     return redirect('/login')

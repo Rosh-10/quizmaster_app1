@@ -11,8 +11,11 @@
           <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user">Users</a>
+          <a class="nav-link" href="/admin_userlist">Users</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminSubject"></a>
+      </li>
         <li class="nav-item">
           <a class="nav-link" href="/subjectcreation"> Create Subjects</a>
         </li>
@@ -41,23 +44,23 @@
           <form action="/usercreation" method="POST">
             <div class="form-group">
               <label for="User_email" class="form-label">Email Address</label>
-              <input type="email" class="form-control" id="User_email" name="User_email" required value="{{email}}">
+              <input type="email" class="form-control" id="User_email" name="User_email" required placeholder="Enter email address">
             </div>
             <div class="form-group">
               <label for="User_fullname" class="form-label">Full Name</label>
-              <input type="text" class="form-control" id="User_fullname" name="User_fullname" required value="{{fullname}}">
+              <input type="text" class="form-control" id="User_fullname" name="User_fullname" required placeholder="Enter full name">
             </div>
             <div class="form-group">
               <label for="User_password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="User_password" name="User_password" required value="{{password}}">
+              <input type="password" class="form-control" id="User_password" name="User_password" required placeholder="Enter password">
             </div>
             <div class="form-group">
               <label for="User_qualification" class="form-label">Qualification</label>
-              <input type="text" class="form-control" id="User_qualification" name="User_qualification" required value="{{qualification}}">
+              <input type="text" class="form-control" id="User_qualification" name="User_qualification" required placeholder="Enter qualification">
             </div>
             <div class="form-group">
               <label for="User_dob" class="form-label">Date of Birth</label>
-              <input type="date" class="form-control" id="User_dob" name="User_dob" required value="{{dob}}">
+              <input type="date" class="form-control" id="User_dob" name="User_dob" required >
             </div>
             <button type="submit" class="btn btn-primary">Create User</button>
           </form>
