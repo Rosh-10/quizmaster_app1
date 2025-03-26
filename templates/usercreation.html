@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/admin ">Admin Panel</a>
+  
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/subjectcreation"> Create Subjects</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
+  <div class="p-3 bg-white rounded shadow" style="max-width: 300px; width: 100%;">
+    <h1 class="display-6 mb-3 text-center">Create User</h1>
+    <form action="/usercreation" method="POST">
+      <div class="form-group mb-2">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+      </div>
+      <div class="form-group mb-2">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="form-group mb-2">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <div class="form-group mb-2">
+        <label for="role" class="form-label">Role</label>
+        <input type="text" class="form-control" id="role" name="role">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Create User</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
