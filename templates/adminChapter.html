@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/admin ">Quiz Master</a>
+
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin_userlist">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminSubject">Subjects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminChapter"> Chapters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminchart">Summary</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h1 class="info">Admin Dashboard</h1>
+  <p class="info">Welcome to the admin dashboard.<br>
+    Here you can manage the users and subjects.
+  </p>
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Chapters</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Chapter name</th>
+            <th>Chapter Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for chapter in Chapters %}
+          <tr>
+            <td>{{chapter.ch_id}}</td>
+            <td>{{chapter.ch_name}}</td>
+            <td>{{chapter.ch_desc}}</td>
+            <td style="display: flex; gap: 10px;">
+              <a href="/editChapter/{{chapter.ch_id}}" class="btn btn-info">EDIT</a>
+              <a href="/adminChapter/{{chapter.ch_id}}" class="btn btn-primary">VIEW</a>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{chapter.ch_id}}">
+                DELETE
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  {% for chapter in chapters %}
+  <div class="modal fade" id="deleteModal{{chapter.ch_id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{chapter.ch_id}}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel{{chapter.ch_id}}">Chapter Deletion</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this chapter?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <form action="/deleteChapter/{{chapter.ch_id}}" method="post">
+            <button type="submit" class="btn btn-primary">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+

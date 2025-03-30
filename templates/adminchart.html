@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/admin ">Quiz Master</a>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin_userlist">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminSubject">Subjects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminChapter">Chapters</a>
+        </li>
+        <!-- Search bar -->
+        <li class="nav-item">
+            <a class="nav-link" href="/adminchart">Summary</a>
+          </li>
+        <form class="d-flex mb-3" role="search" action="/adminsearch" method="GET" >
+          <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search" name="search_query" id="search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='imgs/subject_quiz.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Subject wise number of quizzes</h5>
+                    <p class="card-text">This graph shows the number of quizzes in each subject.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='imgs/user_marks.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Users and marks</h5>
+                    <p class="card-text">This graph shows the marks scored by each user.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='imgs/quiz_question.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Quiz wise number of questions</h5>
+                    <p class="card-text">This graph shows the number of questions in each quiz.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='imgs/user_attempts.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Distribution of user attempts</h5>
+                    <p class="card-text">This graph shows the distribution of user attempts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

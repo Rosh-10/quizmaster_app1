@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/userdashboard/">Quiz Master : {{user.User_fullname}}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/userdashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/results">Results</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/quizzes">Quizzes</a>
+          <li class="nav-item">
+            <a class="nav-link" href="/userhistory">History</a>
+          </li>
+  
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/logout">Logout</a>
+        </li>
+      </ul> 
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+  <h1 class="display-4 text-center">Quiz Results</h1>
+  <p class="lead text-center">
+    Here you can view your quiz results.<br>
+    Your performance in the quizzes you have taken.
+    </p>
+</div>  
+
+
+
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="display-5">Quiz Result</h2>
+        <p class="lead text-center">test taken by: {{user.User_fullname}}</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Quiz Name</th>
+            <th>Quiz Code</th>
+            <th>Total Questions</th>
+            <th>Your Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{quiz.qz_name}}</td>
+            <td>{{quiz.qz_code}}</td>
+            <td>{{totalquestions}}</td>
+            <td>{{score}}/{{totalquestions}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Option 1</th>
+            <th>Option 2</th>
+            <th>Option 3</th>
+            <th>Option 4</th>
+            <th>Correct Option</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for question in questions_list %}
+          <tr>
+            <td>{{question.q_statement}}</td>
+            <td>{{question.ans_opt1}}</td>
+            <td>{{question.ans_opt2}}</td>
+            <td>{{question.ans_opt3}}</td>
+            <td>{{question.ans_opt4}}</td>
+            <td>{{question.ans_correct}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

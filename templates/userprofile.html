@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">User Profile</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>User Details</h4>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Full Name:</strong> {{ user.User_fullname }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.User_email }}</li>
+                <li class="list-group-item"><strong>Qualification:</strong> {{ user.User_qualification }}</li>
+                <li class="list-group-item"><strong>Date of Birth:</strong> {{ user.User_dob }}</li>
+            </ul>
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                Edit
+            </button>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit User Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/userprofile/{{ user.id }}" method="POST">
+                        <div class="form-group mb-3">
+                            <label for="User_fullname" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="User_fullname" name="User_fullname" value="{{ user.User_fullname }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="User_email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="User_email" name="User_email" value="{{ user.User_email }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="User_password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="User_password" name="User_password" value="{{ user.User_password }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="User_qualification" class="form-label">Qualification</label>
+                            <input type="text" class="form-control" id="User_qualification" name="User_qualification" value="{{ user.User_qualification }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="User_dob" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="User_dob" name="User_dob" value="{{ user.User_dob }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -3,8 +3,7 @@
 {% block content %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/admin ">Admin Panel</a>
-  
+    <a class="navbar-brand" href="/admin ">Quiz Master</a>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -14,12 +13,19 @@
           <a class="nav-link" href="/admin_userlist">Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminSubject"></a>
-      </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/subjectcreation"> Create Subjects</a>
+          <a class="nav-link" href="/adminSubject">Subjects</a>
         </li>
-        
+        <li class="nav-item">
+          <a class="nav-link" href="/adminChapter">Chapters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminchart">Summary</a>
+        </li>
+        <!-- Search bar -->
+        <form class="d-flex mb-3" role="search" action="/adminsearch" method="GET" >
+          <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search" name="search_query" id="search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
         <li class="nav-item">
           <a class="nav-link" href="/admin/logout">Logout</a>
         </li>
@@ -28,73 +34,91 @@
   </div>
 </nav>
 
+
 <div class="container">
   <h1 class="info">Admin Dashboard</h1>
   <p class="info">Welcome to the admin dashboard.<br>
     Here you can manage the users and subjects.
   </p>
   <div class="row">
-    <div class="col-md-8">
-        <h2>Subjects</h2>
-        <table class="table" >
-            <thead >
-              <tr>
-                <th >S.No</th>
-                <th >Subject name</th>
-                <th >Subject code</th>
-                <th >Subject teacher</th>
-                <th >Subject Description</th>
-                <th >Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {% for subject in Subjects %}
-
-                <td>{{subject.sub_id}}</t>
-                <td>{{subject.sub_name}}</td>
-                <td>{{subject.sub_code}}</td>
-                <td>{{subject.sub_teacher}}</td>
-                <td>{{subject.sub_description}}</td>
-                <td style="display: flex; gap: 10px;">
-                    <a href="/editSubject/{{subject.sub_id}}" class="btn btn-info">EDIT</a>
-                 <!--   <a href="/deleteSubject/{{subject.sub_id}}" class="btn btn-primary">DELETE</a>
-                -->
-                    <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    DELETE
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Subject Deletion</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="col">
+      <h2>Users</h2>
+      <p>Showing the first 3 users</p>
+      {% set n_users = (user|length, 3)|min %}
+      {% if n_users == 0 %}
+        <p>No users found.</p>
+      {% else %}
+        {% for us in user[:n_users] %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{us.User_fullname}}</h5>
+            <p class="card-text">Email: {{us.User_email}}</p>
+            <a href="/adminUser/{{us.id}}" class="stretched-link"></a>
+          </div>
         </div>
-        <div class="modal-body">
-          Are you sure you want to delete this subject?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <form action="/deleteSubject/{{subject.sub_id}}" method="post">
-            <button type="submit" class="btn btn-primary" >Delete</button>
-          </form>
-        </div>
-      </div>
+        {% endfor %}
+      {% endif %}
     </div>
-  </div>
 
+    <div class="col">
+      <h2>Subjects</h2>
+      <p>Showing the first 3 subjects</p>
+      {% set n_subjects = (subject|length, 3)|min %}
+      {% if n_subjects == 0 %}
+        <p>No subjects found.</p>
+      {% else %}
+        {% for sub in subject[:n_subjects] %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{sub.sub_name}}</h5>
+            <p class="card-text">Subject Code: {{sub.sub_code}}</p>
+            <p class="card-text">Subject Description: {{sub.sub_desc}}</p>
+            <a href="/adminSubject/{{sub.sub_id}}" class="stretched-link"></a>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
 
+    <div class="col">
+      <h2>Chapters</h2>
+      <p>Showing the first 3 chapters</p>
+      {% set n_chapters = (chapter|length, 3)|min %}
+      {% if n_chapters == 0 %}
+        <p>No chapters found.</p>
+      {% else %}
+        {% for chapter in chapter[:n_chapters] %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{chapter.ch_name}}</h5>
+            <p class="card-text">Chapter Code: {{chapter.ch_code}}</p>
+            <p class="card-text">Chapter Description: {{chapter.ch_desc}}</p>
+            <a href="/adminChapter/{{chapter.ch_id}}" class="stretched-link"></a>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
 
-                </td>
-                
-              </tr>
-              {% endfor %}
-             
-            </tbody>
-          </table>
+    <div class="col">
+      <h2>Quizzes</h2>
+      <p>Showing the first 3 quizzes</p>
+      {% set n_quizzes = (quizzes|length, 3)|min %}
+      {% if n_quizzes == 0 %}
+        <p>No quizzes found.</p>
+      {% else %}
+        {% for quiz in quizzes[:n_quizzes] %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{quiz.qz_name}}</h5>
+            <p class="card-text">Quiz Code: {{quiz.qz_code}}</p>
+            <p class="card-text">Quiz Description: {{quiz.qz_desc_remarks}}</p>
+            <a href="/adminQuiz/{{quiz.qz_id}}" class="stretched-link"></a>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
   </div>
 </div>
 

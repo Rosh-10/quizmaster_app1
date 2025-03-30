@@ -3,7 +3,7 @@
 {% block content %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/admin ">Admin Panel</a>
+    <a class="navbar-brand" href="/admin ">Quiz Master</a>
   
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -14,12 +14,11 @@
           <a class="nav-link" href="/admin_userlist">Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminSubject"></a>
+          <a class="nav-link" href="/adminSubject">Subjects</a>
       </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/subjectcreation"> Create Subjects</a>
-        </li>
-        
+      <li class="nav-item">
+        <a class="nav-link" href="/adminchart">Summary</a>
+      </li>
         <li class="nav-item">
           <a class="nav-link" href="/admin/logout">Logout</a>
         </li>
@@ -29,8 +28,8 @@
 </nav>
 
 <div class="container">
-  <h1 class="info">User List</h1>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">CREATE</button>
+  <h1 class="info">User List
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New User</button></h1>
   <!-- Modal -->
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,10 +77,11 @@
         <table class="table" >
             <thead >
               <tr>
-                <th >User ID</th>
-                <th >User name</th>
-                <th >User email</th>
-                
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Email Address</th>
+                <th>Qualification</th>
+                <th>Date of Birth</th>
                 <th >Action</th>
               </tr>
             </thead>
@@ -92,17 +92,58 @@
                 <td>{{user.id}}</t>
                 <td>{{user.User_fullname}}</td>
                 <td>{{user.User_email}}</td>
+                <td>{{user.User_qualification}}</td>
+                <td>{{user.User_dob}}</td>
+                <td>
                 
-                <td style="display: flex; gap: 10px;">
-                    <a href="/editUser/{{user.id}}" class="btn btn-info">EDIT</a>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal{{user.id}}">EDIT</button>
+                    
                  <!--   <a href="/deleteUser/{{user.id}}" class="btn btn-primary">DELETE</a>
                 -->
                     <!-- Button trigger modal -->
 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{user.id}}">
     DELETE
   </button>
+  </td>
   
-  <!-- Modal -->
+ <!-- Edit Modal -->
+ <div class="modal fade" id="editModal{{user.id}}" tabindex="-1" aria-labelledby="editModalLabel{{user.id}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModalLabel{{user.id}}">Edit User
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div></h1>
+      <div class="modal-body">
+        <form action="/editUser/{{user.id}}" method="POST">
+          <div class="form-group">
+            <label for="User_fullname" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="User_fullname" name="User_fullname" value="{{user.User_fullname}}" required>
+          </div>
+          <div class="form-group">
+            <label for="User_email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="User_email" name="User_email" value="{{user.User_email}}" >
+          </div>
+          <div class="form-group">
+            <label for="User_password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="User_password" name="User_password" value="{{user.User_password}}" >
+          </div>
+          <div class="form-group">
+            <label for="User_qualification" class="form-label">Qualification</label>
+            <input type="text" class="form-control" id="User_qualification" name="User_qualification" value="{{user.User_qualification}}" >
+          </div>
+          <div class="form-group">
+            <label for="User_dob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="User_dob" name="User_dob" value="{{user.User_dob}}">
+          </div>
+          <button type="submit" class="btn btn-primary">Update User</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Deletion Modal -->
   <div class="modal fade" id="exampleModal{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{user.id}}" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -115,7 +156,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <form action="/deleteUser/{{user.id}}" method="post">
+          <form action="/deleteUser/{{user.id}}" method="POST">
             <button type="submit" class="btn btn-primary" >Delete</button>
           </form>
         </div>

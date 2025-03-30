@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/admin ">Admin Panel</a>
+  
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin_userlist">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminSubject">Subjects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/adminChapter">Chapters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
+  <div class="p-3 bg-white rounded shadow" style="max-width: 300px; width: 100%;">
+    <h1 class="display-6 mb-3 text-center">Edit Quiz</h1>
+    <form action="/editQuiz/{{ quiz.qz_id }}" method="POST">
+      <div class="form-group mb-2">
+        <label for="quiz_name" class="form-label">Quiz Name</label>
+        <input type="text" class="form-control" id="quiz_name" name="qz_name" value="{{ quiz.qz_name }}" required>
+      </div>
+      <div class="form-group mb-2">
+        <label for="quiz_code" class="form-label">Quiz Code</label>
+        <input type="text" class="form-control" id="quiz_code" name="qz_code" value="{{ quiz.qz_code }}" required>
+      </div>
+      <div class="form-group mb-2">
+        <label for="quiz_desc_remarks" class="form-label">Quiz Description Remarks</label>
+        <textarea class="form-control" id="quiz_desc_remarks" name="qz_desc_remarks" rows="2">{{ quiz.qz_desc_remarks }}</textarea>
+      </div>
+      <div class="form-group mb-2">
+        <label for="quiz_date" class="form-label">Quiz Date</label>
+        <input type="date" class="form-control" id="quiz_date" name="qz_date" value="{{ quiz.qz_date }}" required>
+      </div>
+      <div class="form-group mb-2">
+        <label for="quiz_duration" class="form-label">Quiz Duration (in minutes)</label>
+        <input type="text" class="form-control" id="quiz_time_duration" name="qz_time_duration" value="{{ quiz.qz_time_duration }}" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Update Quiz</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

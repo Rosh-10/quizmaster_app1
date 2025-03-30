@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/userdashboard/">Quiz Master : {{user.User_fullname}}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/userdashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/results">Results</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/quizzes">Quizzes</a>
+          <li class="nav-item">
+            <a class="nav-link" href="/userhistory">History</a>
+          </li>
+  
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/logout">Logout</a>
+        </li>
+      </ul> 
+    </div>
+  </div>
+</nav>
+<div class="container mt-4" style="max-height: 100vh; overflow-y: auto;">
+  <div class="alert alert-info text-center" role="alert">
+    <h4>Quiz Details</h4>
+    <table class="table table-bordered">
+      <tr>
+        <th>Quiz Name</th>
+        <td>{{quiz.qz_name}}</td>
+      </tr>
+      <tr>
+        <th>Quiz Code</th>
+        <td>{{quiz.qz_code}}</td>
+      </tr>
+      <tr>
+        <th>Quiz Description</th>
+        <td>{{quiz.qz_desc_remarks}}</td>
+      </tr>
+      <tr>
+        <th>Quiz Date</th>
+        <td>{{quiz.qz_date}}</td>
+      </tr>
+      <tr>
+        <th>Quiz Time Duration</th>
+        <td>{{quiz.qz_time_duration}}</td>
+      </tr>
+      <tr>
+        <th>Quiz Chapter</th>
+        <td>{{quiz.chap.ch_name}}</td>
+      </tr>
+      <tr>
+        <th>Quiz Subject</th>
+        <td>{{quiz.chap.Subject.sub_name}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2 class="display-5 text-center">Questions</h2>
+  <form action="/submitQuizAnswers/{{quiz.qz_id}}" method="POST">
+    <ul class="list-group">
+      {% for question in questions_list %}
+      <li class="list-group-item">
+        <strong>Question {{ loop.index }}:</strong> {{ question.q_statement }}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <input type="radio" name="{{ question.q_id }}" value="1"> {{ question.ans_opt1 }}
+          </li>
+          <li class="list-group-item">
+            <input type="radio" name="{{ question.q_id }}" value="2"> {{ question.ans_opt2 }}
+          </li>
+          <li class="list-group-item">
+            <input type="radio" name="{{ question.q_id }}" value="3"> {{ question.ans_opt3 }}
+          </li>
+          <li class="list-group-item">
+            <input type="radio" name="{{ question.q_id }}" value="4"> {{ question.ans_opt4 }}
+          </li>
+        </ul>
+      </li> 
+      {% endfor %}
+    </ul>
+<br>    
+<div class="d-flex justify-content-center">
+  <form action="/submitQuizAnswers/{{quiz.qz_id}}" method="POST">
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+  </form>
+</div>
+
+
+
+{% endblock %}
+

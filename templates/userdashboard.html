@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/userdashboard/">Quiz Master : {{user.User_fullname}}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/userdashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/userprofile/{{user.id}}">Profile</a>
+        </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/userhistory">History</a>
+          </li>
+  
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/logout">Logout</a>
+        </li>
+      </ul> 
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+  <h1 class="display-4 text-center">User Dashboard</h1>
+  <p class="lead text-center">
+    Welcome to the user dashboard.<br>
+    Here you can take quizzes.
+  </p>
+</div>
+
+<div class="container mt-4">
+  <h2 class="display-5"> Quizzes</h2>{% if quizzes|length>0 %}
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Quiz ID</th>
+        <th scope="col">Quiz Name</th>
+        <th scope="col">Quiz Code</th>
+        <th scope="col">Quiz Description/remarks </th>
+        <th scope="col">Quiz Date</th>
+        <th scope="col">Quiz Duration</th>
+        <th scope="col">Quiz chapter</th>
+        <th scope="col">Quiz Subject</th>
+
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quiz in quizzes %}
+      <tr>
+        <td>{{quiz.qz_id}}</td>
+        <td>{{quiz.qz_name}}</td>
+        <td>{{quiz.qz_code}}</td>
+        <td>{{quiz.qz_desc_remarks}}</td>
+        <td>{{quiz.qz_date}}</td>
+        <td>{{quiz.qz_time_duration}}</td>
+        <td>{{quiz.chap.ch_name}}</td>
+        <td>{{quiz.chap.Subject.sub_name}}</td>
+        <td>
+          <a href="/user/quiz/{{quiz.qz_id}}" class="btn btn-primary">Take Quiz</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    {% else %}
+    <p>No quizzes available.</p>
+    {% endif %}
+</div>
+
+
+
+
+{% endblock %}
+

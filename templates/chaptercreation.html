@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -11,12 +12,11 @@
           <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user">Users</a>
+          <a class="nav-link" href="/admin_userlist">Users</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/adminSubject">Subjects</a>
       </li>
-      
       <li class="nav-item">
         <a class="nav-link" href="/adminChapter"> Chapters</a>
       </li>
@@ -30,28 +30,21 @@
 </nav>
 <div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
   <div class="p-3 bg-white rounded shadow" style="max-width: 300px; width: 100%;">
-    <h1 class="display-6 mb-3 text-center">Create User</h1>
-    <form action="/usercreation" method="POST">
+    <h1 class="display-6 mb-3 text-center">Create Subject</h1>
+    <form action="/chaptercreation/{{sub_id}}" method="POST">
       <div class="form-group mb-2">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+        <label for="sub_name" class="form-label">chapter Name</label>
+        <input type="text" class="form-control" id="ch_name" name="ch_name" required>
       </div>
+      
       <div class="form-group mb-2">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required>
+        <label for="sub_description" class="form-label"> Description</label>
+        <textarea class="form-control" id="ch_desc" name="ch_desc" rows="2" ></textarea>
       </div>
-      <div class="form-group mb-2">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-      </div>
-      <div class="form-group mb-2">
-        <label for="role" class="form-label">Role</label>
-        <input type="text" class="form-control" id="role" name="role">
-      </div>
-      <button type="submit" class="btn btn-primary w-100">Create User</button>
+      <button type="submit" class="btn btn-primary w-100">Create chapter</button>
     </form>
   </div>
 </div>
 
-{% endblock %}
 
+{% endblock %}
