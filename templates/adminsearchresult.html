@@ -253,6 +253,65 @@
     </div>
     {% endif %}
   </div>
+  {% if quizzes is not none and quizzes | length > 0 %}
+  <div class="container mt-3">
+    <h1 class="display-5 text-center">Quizzes</h1>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+          <thead class="table-info">
+            <tr>
+              <th scope="col">Quiz Name</th>
+              <th scope="col">Quiz Code</th>
+              <th scope="col">Quiz Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for quiz in quizzes %}
+            <tr>
+              <td>{{quiz.qz_name}}</td>
+              <td>{{quiz.qz_code}}</td>
+              <td>{{quiz.qz_date}}</td>
+              <td style="display: flex; gap: 10px;">
+                <a href="{{url_for('quizpage', qz_id=quiz.qz_id)}}" class="btn btn-info">VIEW</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{quiz.qz_id}}">
+                  DELETE
+                </button>
+              </td>
+            </tr>
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{quiz.qz_id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{quiz.qz_id}}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel{{quiz.qz_id}}">Quiz Deletion</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this quiz?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <form action="/deleteQuiz/{{quiz.qz_id}}" method="POST">
+                      <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="alert alert-danger text-center" role="alert">
+      <p>No quizzes found.</p>
+    </div>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

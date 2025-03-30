@@ -2,7 +2,7 @@
 {% block content %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/admin ">Quiz Master</a>
+    <a class="navbar-brand" href="/admin">Quiz Master</a>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -70,6 +70,25 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='imgs/quiz_attempts.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Total Attempts per Quiz</h5>
+                    <p class="card-text">This graph shows the total number of attempts on each quiz.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='imgs/quiz_avg_scores.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Average Score per Quiz</h5>
+                    <p class="card-text">This graph shows the average score of each quiz.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

@@ -34,44 +34,43 @@
   </div>
 </nav>
 
-<!--
-user history page showing the previous quiz attempts of this user
--->
 <div class="container mt-4">
   <h1 class="display-4 text-center">User History</h1>
   <p class="lead text-center">
     Here you can view the quiz attempts made by {{ user.User_fullname }}.
     <br>
   </p>
+  {% if user.Marks %}
+  <div class="table-responsive" style="max-width: 80%; margin: auto;">
+    <table class="table table-bordered table-hover">
+      <thead class="table-info">
+        <tr>
+          <th scope="col">Quiz Name</th>
+          <th scope="col">Score</th>
+          <th scope="col">Date Taken</th>
+          <th scope="col">Time Submitted</th>
+          <th scope="col">Chapter</th>
+          <th scope="col">Subject</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mark in user.Marks %}
+        <tr>
+          <td>{{ mark.quiz.qz_name }}</td>
+          <td>{{ mark.mark_score }}</td>
+          <td>{{ mark.time_taken.strftime('%Y-%m-%d') }}</td>
+          <td>{{ mark.time_taken.strftime('%H:%M:%S') }}</td>
+          <td>{{ mark.quiz.chap.ch_name }}</td>
+          <td>{{ mark.quiz.chap.Subject.sub_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-center">This user has not attempted any quizzes yet.</p>
+  {% endif %}
 </div>
-<div class="table-responsive" style="max-width: 80%; margin: auto;">
-  <table class="table table-bordered table-hover">
-    <thead class="table-info">
-      <tr>
-        <th scope="col">Quiz Name</th>
-        <th scope="col">Score</th>
-        <th scope="col">Date Taken</th>
-        <th scope="col">Time Submitted</th>
-        <th scope="col">Chapter</th>
-        <th scope="col">Subject</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for mark in user.Marks %}
-      <tr>
-        <td>{{ mark.quiz.qz_name }}</td>
-        <td>{{ mark.mark_score }}</td>
-        <td>{{ mark.time_taken.strftime('%Y-%m-%d') }}</td>
-        <td>{{ mark.time_taken.strftime('%H:%M:%S') }}</td>
-        <td>{{ mark.quiz.chap.ch_name }}</td>
-        <td>{{ mark.quiz.chap.Subject.sub_name }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-
 
 {% endblock %}
 

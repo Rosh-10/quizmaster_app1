@@ -2,8 +2,8 @@
 
 {% block content %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/userdashboard/">Quiz Master : {{user.User_fullname}}</a>
+  <div class="container-fluid"><h1 class="navbar-brand">
+    Quiz Master : {{user.User_fullname}}</h1>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,15 +13,11 @@
           <a class="nav-link active" aria-current="page" href="/userdashboard">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user/profile">Profile</a>
+          <a class="nav-link" href="/userprofile/{{user.id}}">Profile</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/user/results">Results</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/user/quizzes">Quizzes</a>
+
           <li class="nav-item">
-            <a class="nav-link" href="/userhistory">History</a>
+            <a class="nav-link" href="/userhistory/{{user.id}}">History</a>
           </li>
   
         </li>

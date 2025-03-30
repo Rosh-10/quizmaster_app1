@@ -234,7 +234,9 @@ def quizpage(qz_id):
     if session.get('isadmin'):
         quiz = Quizzes.query.filter_by(qz_id=qz_id).first()
         qts = questions.query.filter_by(qz_id=qz_id).all()
-        return render_template('quiz_view.html',quiz=quiz,qts=qts)
+        user= User.query.filter_by(id=session['id'],isadmin=False).first()
+        print(user)
+        return render_template('quiz_view.html',quiz=quiz,qts=qts,user=user)
     return redirect('/login')
 
 
@@ -261,6 +263,10 @@ def subjectcreation():
             sub_code = request.form.get("sub_code")
             sub_description = request.form.get("sub_description")
             sub_teacher = request.form.get("sub_teacher")
+            existing_subject = Subject.query.filter_by(sub_name=sub_name).first()
+            if existing_subject:
+                flash("Subject already exists!", "error")
+                return redirect('/adminSubject')
             sub = Subject(sub_name=sub_name,sub_code=sub_code,sub_description=sub_description,sub_teacher=sub_teacher)
             db.session.add(sub)
             db.session.commit()
@@ -282,7 +288,7 @@ def usercreation():
             if existing_user:
                 
                 flash("Email already exists!", "error")
-                return redirect(request.url)
+                return redirect("/admin_userlist")
 
             user = User(User_email=User_email,User_fullname=User_fullname,User_password=User_password,User_qualification=User_qualification,User_dob=User_dob,isadmin=False)
             db.session.add(user)
@@ -300,6 +306,10 @@ def chaptercreation(sub_id):
         if request.method == 'POST':
             ch_name = request.form.get("ch_name")
             ch_desc = request.form.get("ch_desc")
+            existing_chapter = Chapter.query.filter_by(ch_name=ch_name,sub_id=sub_id).first()
+            if existing_chapter:
+                flash("Chapter already exists!", "error")
+                return redirect(url_for('subjectpage',sub_id=sub_id))
             chap = Chapter(ch_name=ch_name,ch_desc=ch_desc,sub_id=sub_id)
             db.session.add(chap)
             db.session.commit()
@@ -319,11 +329,14 @@ def quizcreation(ch_id):
             qz_desc_remarks = request.form.get("qz_desc_remarks")
             qz_date = request.form.get("qz_date")
             qz_time_duration = request.form.get("qz_time_duration")
-            qzd=datetime.strptime(qz_date, '%Y-%m-%d')
-
-           
-            quiz = Quizzes(qz_name=qz_name,qz_code=qz_code,qz_desc_remarks=qz_desc_remarks,qz_date=qzd,qz_time_duration=qz_time_duration,qz_ch_id=ch_id)
+            qzd = datetime.strptime(qz_date, '%Y-%m-%d')
             
+            existing_quiz = Quizzes.query.filter_by(qz_name=qz_name).first()
+            if existing_quiz :
+                flash("Quiz with this name already exists!", "error")
+                return redirect(url_for('chapterpage',ch_id=existing_quiz.qz_ch_id))
+            
+            quiz = Quizzes(qz_name=qz_name, qz_code=qz_code, qz_desc_remarks=qz_desc_remarks, qz_date=qzd, qz_time_duration=qz_time_duration, qz_ch_id=ch_id)
             
             db.session.add(quiz)
             db.session.commit()
@@ -616,7 +629,10 @@ def userdashboard():
         return render_template('userdashboard.html',quizzes=quizzes,user=user,marks=marks)
     return redirect('/login')
 
-
+@app.route('/userdashboard/<int:user_id>')
+def userdashboardid(user_id):
+    if session.get('password'):
+        return redirect('/userdashboard')
 @app.route('/user/quiz/<int:qz_id>', methods=['GET', 'POST'])
 #creating start page for quiz for user
 def quizstart(qz_id):
@@ -676,8 +692,8 @@ def submit_quiz(qz_id):
         return redirect('/userdashboard')
 
 #creating new route for showing user history of previous quizzes
-@app.route('/userhistory')
-def userhistory():
+@app.route('/userhistory/<int:user_id>', methods=['GET', 'POST '])
+def userhistory(user_id):
     if session['useremail']:
         user_id = session['id']
         user = User.query.filter_by(id=user_id).first()
@@ -816,7 +832,41 @@ def adminchart():
             os.remove(img_user_attempts)
         plt.savefig(img_user_attempts, format='png')
         plt.close()
-   
+
+        quiz_stats_dict = {}
+        for quiz in quizzes:
+            quiz_attempts = Marks.query.filter(Marks.mark_quiz_id ==quiz.qz_id).count()
+            quiz_avg_score = db.session.query(db.func.avg(Marks.mark_score)).filter(Marks.mark_quiz_id == quiz.qz_id).scalar() or 0
+            quiz_stats_dict[quiz.qz_name] = (quiz_attempts, quiz_avg_score)
+
+        quiz_names = list(quiz_stats_dict.keys())
+        quiz_attempts_list = [value[0] for value in quiz_stats_dict.values()]
+        quiz_avg_scores_list = [value[1] for value in quiz_stats_dict.values()]
+
+        # Plot 1: Quiz-wise Attempts
+        plt.figure(figsize=(8,6))
+        sns.barplot(x=quiz_names, y=quiz_attempts_list)
+        plt.title('Total Attempts per Quiz')
+        plt.xlabel('Quiz Name')
+        plt.ylabel('Number of Attempts')
+        img_quiz_attempts = os.path.join(crdr, "static", "imgs", "quiz_attempts.png")
+        if os.path.exists(img_quiz_attempts):
+            os.remove(img_quiz_attempts)
+        plt.savefig(img_quiz_attempts, format='png')
+        plt.close()
+
+        # Plot 2: Quiz-wise Average Scores
+        plt.figure(figsize=(8,6))
+        sns.barplot(x=quiz_names, y=quiz_avg_scores_list)
+        plt.title('Average Score per Quiz')
+        plt.xlabel('Quiz Name')
+        plt.ylabel('Average Score')
+        img_quiz_avg_scores = os.path.join(crdr, "static", "imgs", "quiz_avg_scores.png")
+        if os.path.exists(img_quiz_avg_scores):
+            os.remove(img_quiz_avg_scores)
+        plt.savefig(img_quiz_avg_scores, format='png')
+        plt.close()
+        
         return render_template('adminchart.html', users=users, subjects=subjects, chapters=chapters, quizzes=quizzes)
     return redirect('/login')
     
