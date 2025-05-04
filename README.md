@@ -24,10 +24,3 @@ QuizMaster is a dynamic web app for taking quizzes on various subjects. Admins c
 
 ---
 
-## **Installation Guide**
-
-### 1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/quizmaster.git
-cd quizmaster
